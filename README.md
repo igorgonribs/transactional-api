@@ -6,6 +6,7 @@ Primeiro, clone o projeto em sua máquina.
 
 Para executar o projeto execute os seguintes comandos
 ```
+cd transactional-api
 docker build -t transaction-api:local .
 docker-compose up -d mysql transactional-api
 ```
