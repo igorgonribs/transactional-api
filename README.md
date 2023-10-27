@@ -13,6 +13,7 @@ docker-compose up -d mysql transactional-api
 
 ## Modelo de dados
 O modelo de dados final está apresentado no arquivo ```modelo_dados.drawio```, na pasta ```documentation_files```.
+Foi seguido o modelo sugerido na descrição do desafio, com exceção da adição de uma coluna chamada ```operation_signal``` à tabela ```operation_types``` para indicar se a operação request um valor positivo ou negativo.
 
 ## Arquitetura
 O desenho da arquitetura está apresentado no arquivo ```arquitetura.drawio```, na pasta ```documentation_files```.
