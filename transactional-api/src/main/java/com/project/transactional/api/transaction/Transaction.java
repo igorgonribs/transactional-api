@@ -25,6 +25,7 @@ public class Transaction {
 	}
 
 	@Id
+	@Getter
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	@Setter

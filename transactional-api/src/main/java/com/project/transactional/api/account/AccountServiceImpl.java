@@ -1,5 +1,6 @@
 package com.project.transactional.api.account;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -20,13 +21,22 @@ public class AccountServiceImpl implements AccountService {
 
 	@Override
 	public Account createAccount(AccountDto dto) throws InternalServerErrorException {
+		validateDocumentNumberAlreadyExists(dto);
+		
 		try {
-			logger.info(String.format("Creating new account for document %s", dto.getDocumentNumber()));
+			logger.trace(String.format("Creating new account for document %s", dto.getDocumentNumber()));
 			Account account = new Account(dto);
 			return repository.save(account);
 		} catch (Exception ex) {
 			logger.error(String.format("Failed to create account for document %s", dto.getDocumentNumber()));
 			throw new InternalServerErrorException(String.format("A problem occurred: %s", ex.getMessage()));
+		}
+	}
+
+	private void validateDocumentNumberAlreadyExists(AccountDto dto) {
+		List<Account> accounts = repository.findByDocumentNumber(dto.getDocumentNumber());
+		if(!accounts.isEmpty()) {
+			throw new IllegalArgumentException("The informed document number already have an account.");
 		}
 	}
 
