@@ -6,14 +6,14 @@ DROP TABLE IF EXISTS db_transactional.transactions;
 
 CREATE TABLE db_transactional.accounts(
     id int NOT NULL AUTO_INCREMENT,
-    document_number VARCHAR(11) not null,
+    document_number VARCHAR(11) not null unique,
     PRIMARY KEY (id)
 );
 
 CREATE TABLE db_transactional.operation_types(
     id int NOT NULL AUTO_INCREMENT,
-    name varchar(50),
-    operation_signal varchar(50),
+    name varchar(50) not null unique,
+    operation_signal varchar(50) not null,
     PRIMARY KEY (id)
 );
 
@@ -21,8 +21,8 @@ CREATE TABLE db_transactional.transactions(
     id int NOT NULL AUTO_INCREMENT,
     account_id integer,
     operation_type_id integer,
-    amount DECIMAL(19,2),
-    event_date DATETIME,
+    amount DECIMAL(19,2) not null,
+    event_date DATETIME not null,
     PRIMARY KEY (id)
 );
 
