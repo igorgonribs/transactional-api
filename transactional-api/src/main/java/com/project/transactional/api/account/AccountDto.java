@@ -1,8 +1,10 @@
 package com.project.transactional.api.account;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
 public class AccountDto {
-    private String documentNumber;
+	@Getter
+	@Setter
+	private String documentNumber;
 }

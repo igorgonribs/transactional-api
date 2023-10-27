@@ -1,48 +1,67 @@
 package com.project.transactional.api.transaction;
 
-import com.project.transactional.api.account.Account;
-import com.project.transactional.api.account.AccountService;
-import com.project.transactional.api.operationtype.OperationTypeService;
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
-
-import java.security.InvalidParameterException;
 import java.util.NoSuchElementException;
 import java.util.Optional;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+
+import com.project.transactional.api.account.Account;
+import com.project.transactional.api.account.AccountService;
+import com.project.transactional.api.exception.InvalidAmountException;
+import com.project.transactional.api.operationtype.OperationType;
+import com.project.transactional.api.operationtype.OperationTypeService;
+
+import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
 public class TransactionServiceImpl implements TransactionService {
-    private static final Logger logger = Logger.getLogger("");
+	private static final Logger logger = LoggerFactory.getLogger(TransactionServiceImpl.class);
 
-    private TransactionRepository repository;
-    private OperationTypeService operationTypeService;
-    private AccountService accountService;
-    @Override
-    public Transaction createTransaction(TransactionDto dto) throws Exception {
-        validateAccount(dto);
-        validateOperationAmount(dto);
+	private TransactionRepository repository;
+	private OperationTypeService operationTypeService;
+	private AccountService accountService;
 
-        Transaction transaction = new Transaction(dto);
-        return repository.save(transaction);
-    }
+	@Override
+	public Transaction createTransaction(TransactionDto dto) throws Exception {
+		validateAccount(dto);
+		validateOperationAmount(dto);
 
-    private void validateOperationAmount(TransactionDto dto) throws Exception {
-        if(!operationTypeService.isOperationAmountValid(dto.getAmount(), dto.getOperationTypeId())) {
-            String errorMessage = String.format("Invalid amount for operation with id %d", dto.getOperationTypeId());
-            logger.severe(errorMessage);
-            throw new InvalidParameterException(errorMessage);
-        }
+		Transaction transaction = new Transaction(dto);
+		transaction = repository.save(transaction);
 
-    }
+		logger.trace(String.format("Transaction successfully registered: %s", transaction.toString()));
+		return transaction;
+	}
 
-    private void validateAccount(TransactionDto dto) {
-        Optional<Account> account = accountService.getAccount(dto.getAccountId());
-        if(account.isEmpty()) {
-            String errorMessage = String.format("Account with id %d was not found.", dto.getAccountId());
-            logger.severe(errorMessage);
-            throw new NoSuchElementException(errorMessage);
-        }
-    }
+	private void validateOperationAmount(TransactionDto dto) throws Exception {
+		Optional<OperationType> operationType = operationTypeService.getOperationType(dto.getOperationTypeId());
+		if (operationType.isEmpty()) {
+			String errorMessage = String.format("Operation with id %d was not found", dto.getOperationTypeId());
+			logger.error(errorMessage);
+			throw new NoSuchElementException(errorMessage);
+		}
+
+		Boolean isAmountValidForOperationType = operationTypeService.isOperationAmountValid(dto.getAmount(),
+				operationType.get());
+		if (!isAmountValidForOperationType) {
+			String errorMessage = String.format("Invalid amount for operation with id %d", dto.getOperationTypeId());
+			logger.error(errorMessage);
+			throw new InvalidAmountException(errorMessage);
+		}
+
+		logger.trace(String.format("Transaction for account %d with amount %f is valid for requested operation %s",
+				dto.getAccountId(), dto.getAmount(), operationType.get().getName()));
+	}
+
+	private void validateAccount(TransactionDto dto) {
+		Optional<Account> account = accountService.getAccount(dto.getAccountId());
+		if (account.isEmpty()) {
+			String errorMessage = String.format("Account with id %d was not found.", dto.getAccountId());
+			logger.error(errorMessage);
+			throw new NoSuchElementException(errorMessage);
+		}
+	}
 }

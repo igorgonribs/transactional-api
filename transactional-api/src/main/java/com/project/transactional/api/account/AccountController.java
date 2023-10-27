@@ -27,6 +27,6 @@ public class AccountController {
     @GetMapping("/{id}")
     public ResponseEntity<Account> getAccountById(@PathVariable Integer id) {
         Optional<Account> response = service.getAccount(id);
-        return response.map(account -> ResponseEntity.status(HttpStatus.CREATED).body(account)).orElseGet(() -> ResponseEntity.noContent().build());
+        return response.map(account -> ResponseEntity.ok().body(account)).orElseGet(() -> ResponseEntity.noContent().build());
     }
 }
