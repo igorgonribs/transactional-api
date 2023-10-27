@@ -5,26 +5,28 @@ DROP TABLE IF EXISTS db_transactional.operation_types;
 DROP TABLE IF EXISTS db_transactional.transactions;
 
 CREATE TABLE db_transactional.accounts(
-    id int NOT NULL AUTO_INCREMENT,
-    document_number VARCHAR(11) not null unique,
-    PRIMARY KEY (id)
+    id INT NOT NULL AUTO_INCREMENT,
+    document_number VARCHAR(11) NOT NULL,
+    PRIMARY KEY (id),
+    UNIQUE(document_number)
 );
 
 CREATE TABLE db_transactional.operation_types(
-    id int NOT NULL AUTO_INCREMENT,
-    name varchar(50) not null unique,
-    operation_signal varchar(50) not null,
-    PRIMARY KEY (id)
+    id INT NOT NULL AUTO_INCREMENT,
+    name VARCHAR(50) NOT NULL,
+    operation_signal VARCHAR(50) NOT NULL,
+    PRIMARY KEY (id),
+    UNIQUE(name)
 );
 
 CREATE TABLE db_transactional.transactions(
-    id int NOT NULL AUTO_INCREMENT,
-    account_id integer,
-    operation_type_id integer,
-    amount DECIMAL(19,2) not null,
-    event_date DATETIME not null,
+    id INT NOT NULL AUTO_INCREMENT,
+    account_id INTEGER,
+    operation_type_id INTEGER,
+    amount DECIMAL(19,2) NOT NULL,
+    event_date DATETIME NOT NULL,
     PRIMARY KEY (id)
 );
 
-alter table db_transactional.transactions add constraint fk_transaction_account_id foreign key (account_id) references db_transactional.accounts (id);
-alter table db_transactional.transactions add constraint fk_transaction_order_type_id foreign key (operation_type_id) references db_transactional.operation_types (id);
+ALTER TABLE db_transactional.transactions ADD CONSTRAINT fk_transaction_account_id FOREIGN KEY (account_id) REFERENCES db_transactional.accounts (id);
+ALTER TABLE db_transactional.transactions ADD CONSTRAINT fk_transaction_order_type_id FOREIGN KEY (operation_type_id) REFERENCES db_transactional.operation_types (id);

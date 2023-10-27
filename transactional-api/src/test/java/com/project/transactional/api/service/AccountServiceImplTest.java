@@ -3,6 +3,7 @@ package com.project.transactional.api.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.anyString;
 
 import java.util.Optional;
 
@@ -66,5 +67,16 @@ public class AccountServiceImplTest {
 		Executable executable = () -> accountService.createAccount(dto);
 
 		assertThrows(InternalServerErrorException.class, executable);
+	}
+
+	@Test
+	void createAccount_should_fail_for_existing_document() {
+		AccountDto dto = new AccountDto();
+		dto.setDocumentNumber("any String");
+		Mockito.when(repository.findByDocumentNumber(anyString())).thenReturn(Optional.of(new Account()));
+
+		Executable executable = () -> accountService.createAccount(dto);
+
+		assertThrows(IllegalArgumentException.class, executable);
 	}
 }

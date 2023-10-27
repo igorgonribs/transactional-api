@@ -35,22 +35,22 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 	}
 
 	@ExceptionHandler({ InvalidAmountException.class })
-	public ResponseEntity<String> handleInvalidAmount(Exception ex) {
+	public ResponseEntity<String> handleInvalidAmount(InvalidAmountException ex) {
 		return ResponseEntity.status(InvalidAmountException.RETURN_STATUS).body(ex.getMessage());
 	}
 	
 	@ExceptionHandler({ IllegalArgumentException.class })
-	public ResponseEntity<String> handleIllegalArgumentException(Exception ex) {
+	public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex) {
 		return ResponseEntity.badRequest().body(ex.getMessage());
 	}
 
 	@ExceptionHandler({ InternalServerErrorException.class })
-	public ResponseEntity<String> handleInternalServerErrorException(Exception ex) {
+	public ResponseEntity<String> handleInternalServerErrorException(InternalServerErrorException ex) {
 		return ResponseEntity.internalServerError().body(ex.getMessage());
 	}
 
 	@ExceptionHandler({ NoSuchElementException.class })
-	public ResponseEntity<String> handleNoSuchElementException(Exception ex) {
+	public ResponseEntity<String> handleNoSuchElementException(NoSuchElementException ex) {
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
 	}
 
