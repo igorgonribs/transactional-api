@@ -19,6 +19,7 @@ Foi seguido o modelo sugerido na descrição do desafio, com exceção da adiç�
 O desenho da arquitetura está apresentado no arquivo ```arquitetura.drawio```, na pasta ```documentation_files```.
 
 A arquitetura foi feita da forma mais simples possível, com apenas um serviço. Há possibilidade de quebrar em serviços menores de acordo com a necessidade, volumetria de cada api, etc.
+A API de contas, por exemplo, pode ser interessante isolá-la em um serviço apartado devido à alta volumetria do serviço de transações.
 Podemos discutir essas possibilidades durante a apresentação.
 
 ## Endpoints
