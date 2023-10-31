@@ -4,11 +4,9 @@ Api de transações financeiras.
 ## Como executar
 Primeiro, clone o projeto em sua máquina.
 
-Para executar o projeto execute os seguintes comandos
+Para executar o projeto execute os seguintes comandos na pasta raiz do projeto.
 ```
-cd transactional-api
-docker build -t transaction-api:local .
-docker-compose up -d mysql transactional-api
+docker-compose up -d
 ```
 
 ## Modelo de dados
@@ -18,20 +16,19 @@ Foi seguido o modelo sugerido na descrição do desafio, com exceção da adiç�
 ## Arquitetura
 O desenho da arquitetura está apresentado no arquivo ```arquitetura.drawio```, na pasta ```documentation_files```.
 
-A arquitetura foi feita da forma mais simples possível, com apenas um serviço. Há possibilidade de quebrar em serviços menores de acordo com a necessidade, volumetria de cada api, etc.
-A API de contas, por exemplo, pode ser interessante isolá-la em um serviço apartado devido à alta volumetria do serviço de transações. Por isso a estrutura interna dos pacotes foi organizada por domínios ao invés de usar a estrutura de pacotes tradicional do java, pois dessa forma fica mais fácil extrair as classes das quais o domínio de contas depende e levá-las a outro serviço.
-
-O arquivo ``arquitetura_tobe.drawio`` representa como seria essa arquitetura com a API de contas apartada. Podemos discutir essas possibilidades durante a apresentação.
+A arquitetura consiste em um serviço para a API de contas e outro serviço para a API de transações, dessa forma podemos escalar cada API independentemente, dado que cada API pode receber um volume diferente de carga.
 
 ## Endpoints
 
-Para testar a aplicação, importe no postman o arquivo `TransactionalAPI.postman_collection.json`, na pasta ```documentation_files``` e execute as chamadas. 
+Para testar as aplicações, importe no postman o arquivo `TransactionalAPI.postman_collection.json`, na pasta ```documentation_files``` e execute as chamadas. 
 
-### Get Account by Id
+### API de contas
+
+#### Get Account by Id
 Rota para buscar conta por id:
 ```
 Request:  
-    GET /transactional/api/accounts/{id}
+    GET /account/api/accounts/{id}
 
 Response
     {
@@ -40,11 +37,11 @@ Response
     }
 ```
 
-### Create Account
+#### Create Account
 Rota para cadastrar nova conta:
 ```
 Request:
-    POST /transactional/api/accounts
+    POST /account/api/accounts
     {
         "documentNumber": "11094463655"
     }
@@ -57,7 +54,9 @@ Response:
     }
 ```
 
-### Create Transaction
+### API de transações
+
+#### Create Transaction
 Rota para criar uma nova transação:
 ```
 Request:
@@ -79,4 +78,5 @@ Response:
 ```
 
 ## Cobertura de testes
-![alt text](https://github.com/igorgonribs/transactional-api/blob/main/documentation_files/CoverageEvidence.png?raw=true)
+![alt text](https://github.com/igorgonribs/transactional-api/blob/main/documentation_files/CoverageEvidenceAccountAPI.png?raw=true)
+![alt text](https://github.com/igorgonribs/transactional-api/blob/main/documentation_files/CoverageEvidenceTransactionalAPI.png?raw=true)
