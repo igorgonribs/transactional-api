@@ -30,7 +30,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<String> handleGenericException(Exception ex) {
-		return ResponseEntity.internalServerError().body(ex.getMessage());
+		return ResponseEntity.internalServerError().body("An unexpected error ocurred, please, try again later.");
 	}
 
 }
