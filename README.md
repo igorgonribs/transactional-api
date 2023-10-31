@@ -1,5 +1,6 @@
-# Transactional API
-Api de transações financeiras.
+# Sistema de transações
+Serviço de transações financeiras.
+Serviço de contas bancárias.
 
 ## Como executar
 Primeiro, clone o projeto em sua máquina.
