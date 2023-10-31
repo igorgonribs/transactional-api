@@ -18,15 +18,12 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.system.OutputCaptureExtension;
 
-import com.project.transactional.api.account.Account;
-import com.project.transactional.api.account.AccountService;
+import com.project.transactional.api.domain.OperationType;
+import com.project.transactional.api.domain.Transaction;
+import com.project.transactional.api.domain.TransactionDto;
 import com.project.transactional.api.exception.InvalidAmountException;
-import com.project.transactional.api.operationtype.OperationType;
-import com.project.transactional.api.operationtype.OperationTypeService;
-import com.project.transactional.api.transaction.Transaction;
-import com.project.transactional.api.transaction.TransactionDto;
-import com.project.transactional.api.transaction.TransactionRepository;
-import com.project.transactional.api.transaction.TransactionServiceImpl;
+import com.project.transactional.api.repository.TransactionRepository;
+import com.project.transactional.api.service.impl.TransactionServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
 @ExtendWith(OutputCaptureExtension.class)
@@ -35,8 +32,6 @@ public class TransactionServiceImplTest {
 	private TransactionRepository repository;
 	@Mock
 	private OperationTypeService operationTypeService;
-	@Mock
-	private AccountService accountService;
 	@InjectMocks
 	private TransactionServiceImpl service;
 
@@ -57,7 +52,6 @@ public class TransactionServiceImplTest {
 
 		Mockito.when(operationTypeService.isOperationAmountValid(any(BigDecimal.class), any(OperationType.class)))
 				.thenReturn(true);
-		Mockito.when(accountService.getAccount(anyInt())).thenReturn(Optional.of(new Account()));
 		Mockito.when(operationTypeService.getOperationType(anyInt())).thenReturn(Optional.of(mockedOperationType));
 		Mockito.when(repository.save(any(Transaction.class))).thenReturn(expected);
 
@@ -80,7 +74,6 @@ public class TransactionServiceImplTest {
 		Mockito.when(operationTypeService.getOperationType(anyInt())).thenReturn(Optional.of(mockedOperationType));
 		Mockito.when(operationTypeService.isOperationAmountValid(any(BigDecimal.class), any(OperationType.class)))
 				.thenReturn(false);
-		Mockito.when(accountService.getAccount(anyInt())).thenReturn(Optional.of(new Account()));
 
 		Executable executable = () -> service.createTransaction(dto);
 
@@ -93,8 +86,6 @@ public class TransactionServiceImplTest {
 		dto.setAccountId(1);
 		dto.setAmount(BigDecimal.ONE);
 		dto.setOperationTypeId(1);
-
-		Mockito.when(accountService.getAccount(anyInt())).thenReturn(Optional.empty());
 
 		Executable executable = () -> service.createTransaction(dto);
 
@@ -109,7 +100,6 @@ public class TransactionServiceImplTest {
 		dto.setOperationTypeId(1);
 
 		Mockito.when(operationTypeService.getOperationType(anyInt())).thenReturn(Optional.empty());
-		Mockito.when(accountService.getAccount(anyInt())).thenReturn(Optional.of(new Account()));
 
 		Executable executable = () -> service.createTransaction(dto);
 

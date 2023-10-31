@@ -12,14 +12,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/transactional/api/accounts/1",
+					"raw": "http://localhost:8081/account/api/accounts/1",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
+					"port": "8081",
 					"path": [
-						"transactional",
+						"account",
 						"api",
 						"accounts",
 						"1"
@@ -43,14 +43,14 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/transactional/api/accounts",
+					"raw": "http://localhost:8081/account/api/accounts",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
+					"port": "8081",
 					"path": [
-						"transactional",
+						"account",
 						"api",
 						"accounts"
 					]

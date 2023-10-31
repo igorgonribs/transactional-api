@@ -21,9 +21,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.system.OutputCaptureExtension;
 import org.springframework.test.util.ReflectionTestUtils;
 
-import com.project.transactional.api.operationtype.OperationType;
-import com.project.transactional.api.operationtype.OperationTypeRepository;
-import com.project.transactional.api.operationtype.OperationTypeServiceImpl;
+import com.project.transactional.api.domain.OperationType;
+import com.project.transactional.api.repository.OperationTypeRepository;
+import com.project.transactional.api.service.impl.OperationTypeServiceImpl;
 
 import jakarta.ws.rs.InternalServerErrorException;
 
