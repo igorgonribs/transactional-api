@@ -20,7 +20,8 @@ O desenho da arquitetura está apresentado no arquivo ```arquitetura.drawio```, 
 
 A arquitetura foi feita da forma mais simples possível, com apenas um serviço. Há possibilidade de quebrar em serviços menores de acordo com a necessidade, volumetria de cada api, etc.
 A API de contas, por exemplo, pode ser interessante isolá-la em um serviço apartado devido à alta volumetria do serviço de transações. Por isso a estrutura interna dos pacotes foi organizada por domínios ao invés de usar a estrutura de pacotes tradicional do java, pois dessa forma fica mais fácil extrair as classes das quais o domínio de contas depende e levá-las a outro serviço.
-Podemos discutir essas possibilidades durante a apresentação.
+
+O arquivo ``arquitetura_tobe.drawio`` representa como seria essa arquitetura com a API de contas apartada. Podemos discutir essas possibilidades durante a apresentação.
 
 ## Endpoints
 
